@@ -1,0 +1,47 @@
+[
+  {
+    "id": "C-01",
+    "ac": "AC-01",
+    "card": "I-01",
+    "title": "主路径分页查询成功",
+    "method": "POST",
+    "path": "/{svc}/adminapi/demo/_search",
+    "headers": {
+      "Authorization": "Bearer ${TOKEN}",
+      "Content-Type": "application/json"
+    },
+    "body": {
+      "page": 1,
+      "size": 10
+    },
+    "expect": {
+      "http": [200],
+      "successCodeField": "code",
+      "successCodeFromHandbook": true,
+      "bodyPathType": { "data.records": "array" }
+    },
+    "round": "r1"
+  },
+  {
+    "id": "C-02",
+    "ac": "AC-02",
+    "card": "I-02",
+    "title": "无权限用户被拒绝",
+    "method": "POST",
+    "path": "/{svc}/adminapi/demo/_search",
+    "headers": {
+      "Authorization": "Bearer ${TOKEN_DENY}",
+      "Content-Type": "application/json"
+    },
+    "body": {
+      "page": 1,
+      "size": 10
+    },
+    "expect": {
+      "http": [200, 401, 403],
+      "deny": true,
+      "note": "业务码或 HTTP 表示无权限；以手册信封+卡「失败观察」为准"
+    },
+    "round": "r1"
+  }
+]
